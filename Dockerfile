@@ -17,6 +17,6 @@ RUN set -e \
 RUN set -e \
       && /usr/bin/python3.8 /tmp/get-pip.py \
       && pip install -U --no-cache-dir pip create-python-package \
-      && rm -f /tmp/get-pip.py /tmp/create-python-package
+      && rm -rf /tmp/get-pip.py /tmp/create-python-package
 
 ENTRYPOINT ["/usr/local/bin/create-python-package"]
