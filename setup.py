@@ -2,26 +2,24 @@
 
 from setuptools import find_packages, setup
 
-from pkgcreator import __version__
+from createpkg import __version__
 
 with open('README.md', 'r') as f:
     long_description = f.read()
 
 setup(
-    name='create-python-package',
+    name='create-pkg',
     version=__version__,
     author='Daichi Narushima',
     author_email='dnarsil+github@gmail.com',
     description='Python package scaffold builder',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/dceoy/create-python-package',
+    url='https://github.com/dceoy/create-pkg',
     packages=find_packages(),
     include_package_data=True,
     install_requires=['docopt', 'jinja2'],
-    entry_points={
-        'console_scripts': ['create-python-package=pkgcreator.cli.main:main'],
-    },
+    entry_points={'console_scripts': ['create-pkg=createpkg.cli.main:main']},
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

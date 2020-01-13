@@ -1,2 +1,2 @@
-include pkgcreator/static/*
-include pkgcreator/template/*
+include createpkg/static/*
+include createpkg/template/*

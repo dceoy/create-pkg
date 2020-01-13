@@ -1,5 +1,5 @@
-create-python-package
-=====================
+create-pkg
+==========
 
 Python package scaffold builder
 
@@ -9,16 +9,16 @@ Installation
 ------------
 
 ```sh
-$ pip install -U create-python-package
+$ pip install -U create-pkg
 ```
 
 Docker image
 ------------
 
-The image is available at [Docker Hub](https://hub.docker.com/r/dceoy/create-python-package/).
+The image is available at [Docker Hub](https://hub.docker.com/r/dceoy/create-pkg/).
 
 ```sh
-$ docker pull dceoy/create-python-package
+$ docker pull dceoy/create-pkg
 ```
 
 Usage
@@ -30,7 +30,7 @@ Usage
 
     ```sh
     $ mkdir newpackage
-    $ create-python-package ./newpackage
+    $ create-pkg ./newpackage
     ```
 
 2.  Test the command-line interface of the package. (optional)

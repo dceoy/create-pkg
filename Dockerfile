@@ -3,7 +3,7 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND noninteractive
 
 ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
-ADD . /tmp/create-python-package
+ADD . /tmp/create-pkg
 
 RUN set -e \
       && apt-get -y update \
@@ -16,7 +16,7 @@ RUN set -e \
 
 RUN set -e \
       && /usr/bin/python3.8 /tmp/get-pip.py \
-      && pip install -U --no-cache-dir pip create-python-package \
-      && rm -rf /tmp/get-pip.py /tmp/create-python-package
+      && pip install -U --no-cache-dir pip create-pkg \
+      && rm -rf /tmp/get-pip.py /tmp/create-pkg
 
-ENTRYPOINT ["/usr/local/bin/create-python-package"]
+ENTRYPOINT ["/usr/local/bin/create-pkg"]

@@ -5,7 +5,7 @@ box:
 test:
   steps:
     - script:
-        name: Install create-python-package
+        name: Install create-pkg
         code: |
           pip install -U .
     - script:
@@ -17,7 +17,7 @@ test:
         code: |
           set -x
           mkdir newpackage
-          create-python-package newpackage
+          create-pkg newpackage
           python -m venv --without-pip venv
           source venv/bin/activate
           curl -LS https://bootstrap.pypa.io/get-pip.py -o get-pip.py | python
