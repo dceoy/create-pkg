@@ -16,7 +16,7 @@ RUN set -e \
 
 RUN set -e \
       && /usr/bin/python3.8 /tmp/get-pip.py \
-      && pip install -U --no-cache-dir pip create-pkg \
+      && pip install -U --no-cache-dir pip /tmp/create-pkg \
       && rm -rf /tmp/get-pip.py /tmp/create-pkg
 
 ENTRYPOINT ["/usr/local/bin/create-pkg"]
