@@ -75,7 +75,7 @@ def render_template(output_path, data=None, template=None):
     if Path(output_path).is_file():
         logger.info('Skip rendering a file:\t{}'.format(output_path))
     else:
-        print_log('Render a file:\t{}'.format(output_path))
+        print_log('Render a file:   \t{}'.format(output_path))
         if data is not None:
             with open(output_path, 'w') as f:
                 f.write(

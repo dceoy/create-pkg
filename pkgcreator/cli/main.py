@@ -4,12 +4,12 @@ Python package scaffold builder
 
 Usage:
     create-python-package -h|--help
-    create-python-package -v|--version
+    create-python-package --version
     create-python-package [--debug|--info] [--module=<name>] <path>
 
 Options:
     -h, --help          Print help and exit
-    -v, --version       Print version and exit
+    --version           Print version and exit
     --debug, --info     Execute a command with debug|info messages
     --module=<name>     Specify a module name
 

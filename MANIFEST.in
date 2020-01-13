@@ -1,2 +1,2 @@
-include pypkgcreator/static/*
-include pypkgcreator/template/*
+include pkgcreator/static/*
+include pkgcreator/template/*

@@ -7,7 +7,7 @@ Installation
 ------------
 
 ```sh
-$ pip install -U https://github.com/dceoy/create-python-package/archive/master.tar.gz
+$ pip install -U create-python-package
 ```
 
 Docker image
@@ -23,5 +23,6 @@ Usage
 -----
 
 ```sh
+$ mkdir newpackage
 $ create-python-package ./newpackage
 ```

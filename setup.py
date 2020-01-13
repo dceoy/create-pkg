@@ -2,7 +2,7 @@
 
 from setuptools import find_packages, setup
 
-from pypkgcreator import __version__
+from pkgcreator import __version__
 
 with open('README.md', 'r') as f:
     long_description = f.read()
@@ -20,10 +20,10 @@ setup(
     include_package_data=True,
     install_requires=['docopt', 'jinja2'],
     entry_points={
-        'console_scripts': ['create-python-package=pypkgcreator.cli.main:main'],
+        'console_scripts': ['create-python-package=pkgcreator.cli.main:main'],
     },
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Linux',
