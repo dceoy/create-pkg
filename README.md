@@ -1,7 +1,7 @@
-create-pkg
-==========
+create-pypkg
+============
 
-Python package scaffold builder
+Python Package Scaffold Builder
 
 [![wercker status](https://app.wercker.com/status/92f0cf6945529d93502debb6d9edfe73/s/master "wercker status")](https://app.wercker.com/project/byKey/92f0cf6945529d93502debb6d9edfe73)
 
@@ -9,16 +9,16 @@ Installation
 ------------
 
 ```sh
-$ pip install -U create-pkg
+$ pip install -U create-pypkg
 ```
 
 Docker image
 ------------
 
-The image is available at [Docker Hub](https://hub.docker.com/r/dceoy/create-pkg/).
+The image is available at [Docker Hub](https://hub.docker.com/r/dceoy/create-pypkg/).
 
 ```sh
-$ docker pull dceoy/create-pkg
+$ docker pull dceoy/create-pypkg
 ```
 
 Usage
@@ -30,7 +30,7 @@ Usage
 
     ```sh
     $ mkdir newpackage
-    $ create-pkg ./newpackage
+    $ create-pypkg ./newpackage
     ```
 
 2.  Test the command-line interface of the package. (optional)

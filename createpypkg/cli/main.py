@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 """
-Python package scaffold builder
+Python Package Scaffold Builder
 
 Usage:
-    create-pkg -h|--help
-    create-pkg --version
-    create-pkg [--debug|--info] [--module=<name>] <path>
+    create-pypkg -h|--help
+    create-pypkg --version
+    create-pypkg [--debug|--info] [--module=<name>] <path>
 
 Options:
     -h, --help          Print help and exit
@@ -31,7 +31,7 @@ from .util import (fetch_description_from_readme, fetch_git_config, print_log,
 
 def main():
     args = docopt(
-        __doc__, version='create-pkg {}'.format(__version__)
+        __doc__, version='create-pypkg {}'.format(__version__)
     )
     set_log_config(debug=args['--debug'], info=args['--info'])
     logger = logging.getLogger(__name__)

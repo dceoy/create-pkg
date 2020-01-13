@@ -2,14 +2,14 @@
 version: '3'
 
 services:
-  create-pkg:
-    container_name: create-pkg
+  create-pypkg:
+    container_name: create-pypkg
     build:
       context: .
       dockerfile: Dockerfile
-    image: dceoy/create-pkg:latest
+    image: dceoy/create-pypkg:latest
     volumes:
       - ${PWD}:/wd
     working_dir: /wd
     entrypoint:
-      - create-pkg
+      - create-pypkg

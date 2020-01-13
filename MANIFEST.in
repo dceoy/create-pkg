@@ -1,2 +1,2 @@
-include createpkg/static/*
-include createpkg/template/*
+include createpypkg/static/*
+include createpypkg/template/*
