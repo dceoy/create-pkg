@@ -13,17 +13,26 @@ test:
         code: |
           find . -name '*.py' | xargs flake8 --no-isort-config
     - script:
-        name: Test a command
+        name: Set up venv
         code: |
-          set -x
-          mkdir newpackage
-          create-pypkg newpackage
           python -m venv --without-pip venv
           source venv/bin/activate
           curl -LS https://bootstrap.pypa.io/get-pip.py -o get-pip.py | python
+    - script:
+        name: Create a new package
+        code: |
+          mkdir newpackage
+          create-pypkg newpackage
+    - script:
+        name: Test the new package
+        code: |
           pip install -U ./newpackage
           newpackage --help
           newpackage --debug foo bar
+    - script:
+        name: Validate the codes of the new package using flake8
+        code: |
+          find ./newpackage -name '*.py' | xargs flake8 --no-isort-config
   after-steps:
     - slack-notifier:
         url: $SLACK_URL
