@@ -22,7 +22,7 @@ from . import __version__
 
 
 def main():
-    args = docopt(__doc__, version='{{ version }}')
+    args = docopt(__doc__, version=__version__)
     _set_log_config(debug=args['--debug'], info=args['--info'])
     logger = logging.getLogger(__name__)
     logger.debug('args:{0}{1}'.format(os.linesep, args))

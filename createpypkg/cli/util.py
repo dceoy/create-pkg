@@ -35,13 +35,15 @@ def fetch_description_from_readme(md_path):
 def fetch_git_config(repo_path):
     local_gitconfig = Path(repo_path).joinpath('.git/config')
     local_cf = (
-        _read_config_file(path=str(local_gitconfig))
-        if local_gitconfig.is_file() else dict()
+        _read_config_file(
+            path=str(local_gitconfig), keys=['user']
+        ) if local_gitconfig.is_file() else dict()
     )
     global_gitconfig = Path.home().joinpath('.gitconfig')
     global_cf = (
-        _read_config_file(path=str(global_gitconfig))
-        if global_gitconfig.is_file() else dict()
+        _read_config_file(
+            path=str(global_gitconfig), keys=['user', 'remote "origin"']
+        ) if global_gitconfig.is_file() else dict()
     )
     if local_cf.get('user'):
         author = str(local_cf['user'].get('name'))
@@ -64,10 +66,10 @@ def fetch_git_config(repo_path):
     }
 
 
-def _read_config_file(path):
+def _read_config_file(path, keys=None):
     c = ConfigParser()
     c.read(path)
-    return {k: dict(v) for k, v in c.items()}
+    return {k: dict(v) for k, v in c.items() if keys is None or k in keys}
 
 
 def render_template(output_path, data=None, template=None):
