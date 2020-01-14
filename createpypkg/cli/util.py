@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import logging
+import os
 import re
 import shutil
 from configparser import ConfigParser
@@ -88,7 +89,7 @@ def render_template(output_path, data=None, template=None):
                         )
                     ).get_template(
                         template or (Path(output_path).name + '.j2')
-                    ).render(data)
+                    ).render(data) + os.linesep
                 )
         else:
             shutil.copyfile(

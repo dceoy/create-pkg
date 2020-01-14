@@ -21,11 +21,13 @@ test:
     - script:
         name: Create a new package
         code: |
+          set -x
           mkdir newpackage
           create-pypkg newpackage
     - script:
         name: Test the new package
         code: |
+          set -x
           pip install -U ./newpackage
           newpackage --help
           newpackage --debug foo bar
