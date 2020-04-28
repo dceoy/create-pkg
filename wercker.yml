@@ -11,7 +11,7 @@ test:
     - script:
         name: Validate the codes using flake8
         code: |
-          find . -name '*.py' | xargs flake8 --no-isort-config
+          find . -name '*.py' | xargs flake8
     - script:
         name: Set up venv
         code: |
@@ -34,7 +34,7 @@ test:
     - script:
         name: Validate the codes of the new package using flake8
         code: |
-          find ./newpackage -name '*.py' | xargs flake8 --no-isort-config
+          find ./newpackage -name '*.py' | xargs flake8
   after-steps:
     - slack-notifier:
         url: $SLACK_URL
