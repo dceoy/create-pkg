@@ -43,3 +43,5 @@ Usage
     $ newpackage --help
     $ newpackage --debug foo bar
     ```
+
+Run `create-pypkg --help` for more information.
