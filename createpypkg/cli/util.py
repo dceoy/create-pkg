@@ -6,6 +6,7 @@ import re
 import shutil
 from configparser import ConfigParser
 from pathlib import Path
+from pprint import pformat
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -33,19 +34,20 @@ def fetch_description_from_readme(md_path):
     return short_description
 
 
-def fetch_git_config(repo_path):
-    local_gitconfig = Path(repo_path).joinpath('.git/config')
+def fetch_git_config(repo_dir_path):
+    logger = logging.getLogger(__name__)
+    local_gitconfig = Path(str(repo_dir_path)).joinpath('.git/config')
     local_cf = (
-        _read_config_file(
-            path=str(local_gitconfig), keys=['user']
-        ) if local_gitconfig.is_file() else dict()
+        _read_config_file(path=local_gitconfig)
+        if local_gitconfig.is_file() else dict()
     )
+    logger.debug(f'local_cf:\t{os.linesep}' + pformat(local_cf))
     global_gitconfig = Path.home().joinpath('.gitconfig')
     global_cf = (
-        _read_config_file(
-            path=str(global_gitconfig), keys=['user', 'remote "origin"']
-        ) if global_gitconfig.is_file() else dict()
+        _read_config_file(path=global_gitconfig)
+        if global_gitconfig.is_file() else dict()
     )
+    logger.debug(f'global_cf:\t{os.linesep}' + pformat(global_cf))
     if local_cf.get('user'):
         author = str(local_cf['user'].get('name'))
         author_email = str(local_cf['user'].get('email'))
@@ -56,11 +58,11 @@ def fetch_git_config(repo_path):
         author = ''
         author_email = ''
     if local_cf.get('remote "origin"'):
-        git_url = str(local_cf['remote "origin"'].get('url'))
-        if git_url.startswith(('http://', 'https://')):
+        git_url = local_cf['remote "origin"'].get('url') or ''
+        if git_url.startswith(('https://', 'http://')):
             url = git_url
         elif git_url.startswith('git@github.com:'):
-            url = 'https://{0}/{1}'.format(*git_url.split('@')[1].split(':'))
+            url = 'https://github.com/{}'.format(git_url.split(':')[1])
         else:
             url = ''
         user_name = re.split(r'[:/]', url)[-2] if url and '/' in url else ''
@@ -81,12 +83,13 @@ def _read_config_file(path, keys=None):
 
 def render_template(output_path, data=None, template=None):
     logger = logging.getLogger(__name__)
-    if Path(output_path).is_file():
-        logger.info('Skip rendering a file:\t{}'.format(output_path))
+    target = Path(str(output_path))
+    if target.is_file():
+        logger.info(f'Skip rendering a file:\t{target}')
     else:
-        print_log('Render a file:   \t{}'.format(output_path))
+        print_log(f'Render a file:   \t{target}')
         if data is not None:
-            with open(output_path, 'w') as f:
+            with open(target, 'w') as f:
                 f.write(
                     Environment(
                         loader=FileSystemLoader(
@@ -94,21 +97,21 @@ def render_template(output_path, data=None, template=None):
                             encoding='utf8'
                         )
                     ).get_template(
-                        template or (Path(output_path).name + '.j2')
+                        template or f'{target.name}.j2'
                     ).render(data) + os.linesep
                 )
         else:
             shutil.copyfile(
                 str(
                     Path(__file__).parent.joinpath('../static').joinpath(
-                        template or Path(output_path).name
+                        template or target.name
                     )
                 ),
-                output_path
+                str(target)
             )
 
 
 def print_log(message):
     logger = logging.getLogger(__name__)
     logger.info(message)
-    print('>>\t{}'.format(message), flush=True)
+    print(f'>>\t{message}', flush=True)

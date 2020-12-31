@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      image: {{ user_name }}/{{ package_name }}:latest
+      image: {{ user_name + '/' if user_name else '' }}{{ package_name }}:latest
     volumes:
       - ${PWD}:/wd
     working_dir: /wd
