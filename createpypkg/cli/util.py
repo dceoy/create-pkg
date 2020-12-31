@@ -56,7 +56,13 @@ def fetch_git_config(repo_path):
         author = ''
         author_email = ''
     if local_cf.get('remote "origin"'):
-        url = str(local_cf['remote "origin"'].get('url'))
+        git_url = str(local_cf['remote "origin"'].get('url'))
+        if git_url.startswith(('http://', 'https://')):
+            url = git_url
+        elif git_url.startswith('git@github.com:'):
+            url = 'https://{0}/{1}'.format(*git_url.split('@')[1].split(':'))
+        else:
+            url = ''
         user_name = re.split(r'[:/]', url)[-2] if url and '/' in url else ''
     else:
         url = ''
