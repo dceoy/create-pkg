@@ -1,0 +1,44 @@
+---
+name: Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  test_installation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install packages
+        run: |
+          python3 -m pip install -U \
+            autopep8 flake8 flake8-bugbear flake8-isort pep8-naming .
+      - name: Validate the codes using flake8
+        run: |
+          find . -name '*.py' | xargs flake8
+      - name: Set up venv
+        run: |
+          python3 -m venv --without-pip venv
+          source venv/bin/activate
+          curl -LS https://bootstrap.pypa.io/get-pip.py -o get-pip.py | python
+      - name: Create a new package
+        run: |
+          set -x
+          mkdir newpackage
+          create-pypkg newpackage
+      - name: Test the new package
+        run: |
+          set -x
+          pip install -U ./newpackage
+          newpackage --help
+          newpackage --debug foo bar
+      - name: Validate the codes of the new package using flake8
+        run: |
+          find ./newpackage -name '*.py' | xargs flake8
