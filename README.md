@@ -3,8 +3,8 @@ create-pypkg
 
 Python Package Scaffold Builder
 
-[![wercker status](https://app.wercker.com/status/92f0cf6945529d93502debb6d9edfe73/s/master "wercker status")](https://app.wercker.com/project/byKey/92f0cf6945529d93502debb6d9edfe73)
-![Upload Python Package](https://github.com/dceoy/create-pypkg/workflows/Upload%20Python%20Package/badge.svg)
+[![Test](https://github.com/dceoy/create-pypkg/actions/workflows/test.yml/badge.svg)](https://github.com/dceoy/create-pypkg/actions/workflows/test.yml)
+[![Upload Python Package](https://github.com/dceoy/create-pypkg/actions/workflows/python-publish.yml/badge.svg)](https://github.com/dceoy/create-pypkg/actions/workflows/python-publish.yml)
 
 Installation
 ------------
