@@ -95,7 +95,8 @@ def render_template(output_path, data=None, template=None):
                         loader=FileSystemLoader(
                             str(Path(__file__).parent.joinpath('../template')),
                             encoding='utf8'
-                        )
+                        ),
+                        autoescape=True
                     ).get_template(
                         template or f'{target.name}.j2'
                     ).render(data) + os.linesep

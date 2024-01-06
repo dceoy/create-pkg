@@ -3,42 +3,48 @@ name: Test
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
+  workflow_dispatch:
 jobs:
   test_installation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
       - name: Install packages
         run: |
-          python3 -m pip install -U \
-            autopep8 flake8 flake8-bugbear flake8-isort pep8-naming .
+          pip install -U --no-cache-dir \
+            autopep8 bandit flake8 flake8-bugbear flake8-isort pep8-naming \
+            mypy types-docopt types-jsonschema types-setuptools .
       - name: Validate the codes using flake8
         run: |
-          find . -name '*.py' | xargs flake8
-      - name: Set up venv
+          find . -path build -prune -o -type f -name '*.py' | xargs flake8
+      - name: Validate the codes using Mypy
         run: |
-          python3 -m venv --without-pip venv
-          source venv/bin/activate
-          curl -LS https://bootstrap.pypa.io/get-pip.py -o get-pip.py | python
-      - name: Create a new package
+          mypy --exclude=build .
+      - name: Find security issues using Bandit
         run: |
-          set -x
-          mkdir newpackage
-          create-pypkg newpackage
-      - name: Test the new package
+          bandit --exclude=build -r .
+      - name: Test commands
         run: |
-          set -x
-          pip install -U ./newpackage
-          newpackage --help
-          newpackage --debug foo bar
-      - name: Validate the codes of the new package using flake8
+          sdeul --version
+          sdeul --help
+      - name: Test validate command
         run: |
-          find ./newpackage -name '*.py' | xargs flake8
+          sdeul validate \
+            test/data/medication_history.schema.json \
+            test/data/medication_history.json
+      - name: Test extract command
+        run: |
+          sdeul extract \
+            --pretty-json \
+            --google-model=gemini-pro \
+            --google-api-key=${{ secrets.GOOGLE_API_KEY }} \
+            test/data/medication_history.schema.json \
+            test/data/patient_medication_record.txt

@@ -44,12 +44,13 @@ def _create_python_package_scaffold(args, include_package_data=True,
     repo_dir = Path(args['<path>']).resolve()
     pkg_name = args['--module'] or repo_dir.name
     pkg_dir = repo_dir.joinpath(re.sub(r'[\.\-]', '', pkg_name))
-    assert repo_dir.is_dir(), f'No such directory:\t{repo_dir}'
-    if pkg_dir.is_dir():
-        pass
-    else:
+    if not repo_dir.is_dir():
+        raise FileNotFoundError(f'No such directory: {repo_dir}')
+    elif not pkg_dir.is_dir():
         print_log(f'Make a directory:\t{pkg_dir}')
         pkg_dir.mkdir()
+    else:
+        pass
     readme_md = repo_dir.joinpath('README.md')
     if readme_md.is_file():
         description = fetch_description_from_readme(md_path=readme_md)
