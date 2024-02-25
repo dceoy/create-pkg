@@ -60,11 +60,16 @@ def _create_python_package_scaffold(args, include_package_data=True,
             data={'package_name': pkg_name, 'description': description},
             output_path=readme_md
         )
+    license = ''
+    for n in ['LICENSE', 'LICENSE.txt', 'LICENSE.md']:
+        if repo_dir.joinpath(n).is_file():
+            license = n
+            break
     data = {
         'package_name': pkg_name, 'module_name': pkg_dir.name,
         'include_package_data': str(include_package_data).lower(),
-        'version': 'v0.0.1', 'description': description,
-        **fetch_git_config(repo_dir_path=repo_dir)
+        'version': 'v0.0.1', 'description': description, 'license': license,
+        **fetch_git_config(repo_dir_path=repo_dir, pkg_name=pkg_name)
     }
     logger.debug(f'data:{os.linesep}' + pformat(data))
     gitignore = repo_dir.joinpath('.gitignore')

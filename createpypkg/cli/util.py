@@ -34,7 +34,7 @@ def fetch_description_from_readme(md_path):
     return short_description
 
 
-def fetch_git_config(repo_dir_path):
+def fetch_git_config(repo_dir_path, pkg_name):
     logger = logging.getLogger(__name__)
     local_gitconfig = Path(str(repo_dir_path)).joinpath('.git/config')
     local_cf = (
@@ -56,7 +56,9 @@ def fetch_git_config(repo_dir_path):
         author_email = str(global_cf['user'].get('email'))
     else:
         author = ''
-        author_email = ''
+        author_email = 'email@example.com'
+    dummy_user_name = 'me'
+    dummy_url = f'https://example.com/{dummy_user_name}/{pkg_name}.git'
     if local_cf.get('remote "origin"'):
         git_url = local_cf['remote "origin"'].get('url') or ''
         if git_url.startswith(('https://', 'http://')):
@@ -64,11 +66,14 @@ def fetch_git_config(repo_dir_path):
         elif git_url.startswith('git@github.com:'):
             url = 'https://github.com/{}'.format(git_url.split(':')[1])
         else:
-            url = ''
-        user_name = re.split(r'[:/]', url)[-2] if url and '/' in url else ''
+            url = 'https://example.com/me/repo.git'
+        if url and '/' in url:
+            user_name = re.split(r'[:/]', url)[-2]
+        else:
+            user_name = dummy_user_name
     else:
-        url = ''
-        user_name = ''
+        url = dummy_url
+        user_name = dummy_user_name
     return {
         'author': author, 'author_email': author_email, 'url': url,
         'user_name': user_name
