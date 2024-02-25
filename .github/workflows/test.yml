@@ -8,6 +8,10 @@ on:
     branches:
       - master
   workflow_dispatch:
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+    working-directory: .
 jobs:
   lint-and-scan:
     uses: dceoy/gh-actions-for-devops/.github/workflows/python-package-lint-and-scan.yml@main
