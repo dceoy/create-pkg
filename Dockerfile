@@ -15,7 +15,7 @@ RUN set -e \
       && rm -rf /var/lib/apt/lists/*
 
 RUN set -e \
-      && /usr/bin/python3.8 /tmp/get-pip.py \
+      && /usr/bin/python3 /tmp/get-pip.py \
       && pip install -U --no-cache-dir pip /tmp/create-pypkg \
       && rm -rf /tmp/get-pip.py /tmp/create-pypkg
 

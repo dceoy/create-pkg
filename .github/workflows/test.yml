@@ -3,48 +3,45 @@ name: Test
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   workflow_dispatch:
 jobs:
-  test_installation:
+  lint-and-scan:
+    uses: dceoy/gh-actions-for-devops/.github/workflows/python-package-lint-and-scan.yml@main
+    with:
+      package-path: .
+      python-version: 3.x
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: 3.x
       - name: Install packages
         run: |
-          pip install -U --no-cache-dir \
-            autopep8 bandit flake8 flake8-bugbear flake8-isort pep8-naming \
-            mypy types-docopt types-jsonschema types-setuptools .
-      - name: Validate the codes using flake8
+          python3 -m pip install -U \
+            autopep8 flake8 flake8-bugbear flake8-isort pep8-naming .
+      - name: Set up venv
         run: |
-          find . -path build -prune -o -type f -name '*.py' | xargs flake8
-      - name: Validate the codes using Mypy
+          python3 -m venv --without-pip venv
+          source venv/bin/activate
+          curl -LS https://bootstrap.pypa.io/get-pip.py -o get-pip.py | python
+      - name: Create a new package
         run: |
-          mypy --exclude=build .
-      - name: Find security issues using Bandit
+          set -x
+          mkdir newpackage
+          create-pypkg newpackage
+      - name: Test the new package
         run: |
-          bandit --exclude=build -r .
-      - name: Test commands
+          set -x
+          pip install -U ./newpackage
+          newpackage --help
+          newpackage --debug foo bar
+      - name: Validate the codes of the new package using flake8
         run: |
-          sdeul --version
-          sdeul --help
-      - name: Test validate command
-        run: |
-          sdeul validate \
-            test/data/medication_history.schema.json \
-            test/data/medication_history.json
-      - name: Test extract command
-        run: |
-          sdeul extract \
-            --pretty-json \
-            --google-model=gemini-pro \
-            --google-api-key=${{ secrets.GOOGLE_API_KEY }} \
-            test/data/medication_history.schema.json \
-            test/data/patient_medication_record.txt
+          flake8 ./newpackage

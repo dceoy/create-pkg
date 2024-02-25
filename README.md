@@ -4,8 +4,8 @@ create-pypkg
 Python Package Scaffold Builder
 
 [![Test](https://github.com/dceoy/create-pypkg/actions/workflows/test.yml/badge.svg)](https://github.com/dceoy/create-pypkg/actions/workflows/test.yml)
-[![CI to Docker Hub](https://github.com/dceoy/create-pypkg/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/dceoy/create-pypkg/actions/workflows/docker-publish.yml)
-[![Release on PyPI](https://github.com/dceoy/create-pypkg/actions/workflows/pypi-release.yml/badge.svg)](https://github.com/dceoy/create-pypkg/actions/workflows/pypi-release.yml)
+[![CI to Docker Hub](https://github.com/dceoy/create-pypkg/actions/workflows/docker-compose-build-and-push.yml/badge.svg)](https://github.com/dceoy/create-pypkg/actions/workflows/docker-compose-build-and-push.yml)
+[![Release on PyPI](https://github.com/dceoy/create-pypkg/actions/workflows/python-package-release-on-pypi-and-github.yml/badge.svg)](https://github.com/dceoy/create-pypkg/actions/workflows/python-package-release-on-pypi-and-github.yml)
 
 Installation
 ------------

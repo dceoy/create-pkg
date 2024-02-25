@@ -62,7 +62,7 @@ def _create_python_package_scaffold(args, include_package_data=True,
         )
     data = {
         'package_name': pkg_name, 'module_name': pkg_dir.name,
-        'include_package_data': str(include_package_data),
+        'include_package_data': str(include_package_data).lower(),
         'version': 'v0.0.1', 'description': description,
         **fetch_git_config(repo_dir_path=repo_dir)
     }
@@ -71,7 +71,7 @@ def _create_python_package_scaffold(args, include_package_data=True,
     if not gitignore.is_file():
         render_template(output_path=gitignore, template='Python.gitignore')
     dest_files = [
-        'setup.py',
+        'pyproject.toml',
         *[(pkg_dir.name + '/' + n) for n in ['__init__.py', 'cli.py']],
         'MANIFEST.in', 'Dockerfile', 'docker-compose.yml'
     ]
