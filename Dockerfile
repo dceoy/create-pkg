@@ -1,22 +1,35 @@
-FROM ubuntu:latest
+# syntax=docker/dockerfile:1
+ARG PYTHON_VERSION=3.13
+FROM public.ecr.aws/docker/library/python:${PYTHON_VERSION}-slim
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONIOENCODING=utf-8
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PIP_NO_CACHE_DIR=1
 
-ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
-ADD . /tmp/create-pypkg
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
-RUN set -e \
-      && apt-get -y update \
-      && apt-get -y dist-upgrade \
-      && apt-get -y install --no-install-recommends --no-install-suggests \
-        python3 python3-distutils \
-      && apt-get -y autoremove \
-      && apt-get clean \
-      && rm -rf /var/lib/apt/lists/*
+RUN \
+      rm -f /etc/apt/apt.conf.d/docker-clean \
+      && echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' \
+        > /etc/apt/apt.conf.d/keep-cache
 
-RUN set -e \
-      && /usr/bin/python3 /tmp/get-pip.py \
-      && pip install -U --no-cache-dir pip /tmp/create-pypkg \
-      && rm -rf /tmp/get-pip.py /tmp/create-pypkg
+RUN \
+      --mount=type=cache,target=/var/cache/apt,sharing=locked \
+      --mount=type=cache,target=/var/lib/apt,sharing=locked \
+      apt-get -y update \
+      && apt-get -y upgrade
 
-ENTRYPOINT ["/usr/local/bin/create-pypkg"]
+RUN \
+      --mount=type=cache,target=/root/.cache \
+      --mount=type=bind,source=.,target=/mnt/host \
+      cp -a /mnt/host /tmp/create-pypkg \
+      && /usr/local/bin/python -m pip install --prefix /usr \
+        /tmp/create-pypkg \
+      && rm -rf /tmp/create-pypkg
+
+HEALTHCHECK NONE
+
+ENTRYPOINT ["/usr/local/bin/python", "-m", "create-pypkg"]

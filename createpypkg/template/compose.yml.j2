@@ -1,5 +1,4 @@
 ---
-version: '3'
 services:
   {{ package_name }}:
     container_name: {{ package_name }}
@@ -8,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: {{ user_name + '/' if user_name else '' }}{{ package_name }}:latest
     volumes:
-      - ${PWD}:/wd
+      - .:/wd
     working_dir: /wd
     entrypoint:
       - {{ package_name }}

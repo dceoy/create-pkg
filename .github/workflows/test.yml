@@ -18,6 +18,7 @@ jobs:
     with:
       package-path: .
       python-version: 3.x
+      use-pyright: false
   test:
     runs-on: ubuntu-latest
     steps:
